@@ -26,6 +26,13 @@ def login(name,passwd):
     dd.find_element_by_id("login_password_input").send_keys(passwd)
     dd.find_element_by_id('login_button').click()
 
+def menu():
+    dd.find_element_by_id(u'首页').click()
+    dd.find_element_by_id(u'选课').click()
+    dd.find_element_by_id(u'学习').click()
+    dd.find_element_by_id(u'消息').click()
+    dd.find_element_by_id(u'我的').click()
+
 if __name__ == "__main__":
     n = "13141032576"
     p = "lihailong123"
