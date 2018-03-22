@@ -42,7 +42,7 @@ class apptest():
         self.dd.find_element_by_name(u'学习').click()
         self.dd.find_element_by_name(u'消息').click()
         self.dd.find_element_by_name(u'我的').click()
-        self.dd.find_element_by_id('logout_button').click()
+        self.dd.find_element_by_name(u'退出登录').click()
 
     def logout(self):
         self.dd.find_element_by_name(u'我的').click()
