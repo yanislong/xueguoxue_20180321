@@ -6,6 +6,7 @@ import sys
 from appium import webdriver
 
 #获得机器屏幕大小x,y
+'''
 def getSize():
     x = dr.get_window_size()['width']
     y = dr.get_window_size()['height']
@@ -39,15 +40,7 @@ def swipRight(t):
     y1=int(l[1]*0.5)
     x2=int(l[0]*0.75)
     dr.swipe(x1,y1,x2,y1,t)
-#调用向左滑动
-swipLeft(1000)
-sleep(3)
-#调用向右滑动
-swipRight(1000)
-调用向上滑动
-swipeUp(1000)
-调用向下滑动
-swipeDown(1000)
+'''
 
 class apptest():
     def __init__(self):
@@ -62,6 +55,19 @@ class apptest():
         self.desired_caps['appActivity'] = ".view.MainActivity"
         self.dd = webdriver.Remote("http://172.16.20.202:4723/wd/hub", self.desired_caps)
         return self.dd
+
+    def getSize(self):
+        x = self.dd.get_window_size()['width']
+        y = self.dd.get_window_size()['height']
+        return (x, y)
+
+    def swipeDown(self,t):
+        l = self.getSize()
+        print l
+        y1 = int(l[0] * 0.5)  #x坐标
+        x1 = int(l[1] * 0.75)   #起始y坐标
+        x2 = int(l[1] * 0.25)   #终点y坐标
+        self.dd.swipe(x1, y1, x2, y1,t)
 
     def login(self,name,passwd):
         try:
@@ -81,22 +87,23 @@ class apptest():
 
     def menu(self):
         self.dd.find_element_by_name(u'首页').click()
-        time.sleep(2)
         self.dd.find_element_by_name(u'选课').click()
         self.dd.find_element_by_name(u'学习').click()
         self.dd.find_element_by_name(u'消息').click()
         self.dd.find_element_by_name(u'我的').click()
-        swipeDown(5)
-        self.dd.find_element_by_name(u'退出登录').click()
 
     def logout(self):
         self.dd.find_element_by_name(u'我的').click()
+        self.dd.swipe(0.5,0.75,0.5,0.25)
         print "click logout"
-        #self.dd.find_element_by_name('').click()
-        #self.dd.find_element_by_id('logout_button').click()
+        self.dd.find_element_by_id('logout_button').click()
+        self.dd.find_element_by_id('right_button').click()
 
     def __del__(self):
-        self.logout()
+        try:
+            self.logout()
+        except:
+            print "user not login"
 
 if __name__ == "__main__":
     n = "13141032576"
