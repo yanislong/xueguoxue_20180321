@@ -53,6 +53,8 @@ class apptest():
         self.desired_caps['deviceName'] = "MI3"
         self.desired_caps['appPackage'] = "com.wwkj.xueguoxue"
         self.desired_caps['appActivity'] = ".view.MainActivity"
+        self.desired_caps['unicodeKeyboard'] = True
+        self.desired_caps['resetKeyboard'] = True
         self.dd = webdriver.Remote("http://172.16.20.202:4723/wd/hub", self.desired_caps)
         return self.dd
 
@@ -64,9 +66,9 @@ class apptest():
     def swipeDown(self,t):
         l = self.getSize()
         print l
-        y1 = int(l[0] * 0.5)  #x坐标
-        x1 = int(l[1] * 0.75)   #起始y坐标
-        x2 = int(l[1] * 0.25)   #终点y坐标
+        x1 = int(l[0] * 0.5)  #x坐标
+        y1 = int(l[1] * 0.75)   #起始y坐标
+        y2 = int(l[1] * 0.25)   #终点y坐标
         self.dd.swipe(x1, y1, x2, y1,t)
 
     def login(self,name,passwd):
@@ -92,6 +94,15 @@ class apptest():
         self.dd.find_element_by_name(u'消息').click()
         self.dd.find_element_by_name(u'我的').click()
 
+    def search(self,text=""):
+        self.dd.find_element_by_name(u'首页').click()
+        self.dd.find_element_by_id('index_search_layout').click()
+        self.dd.find_element_by_id('searchView').send_keys('i love you')
+        self.dd.excuteAdbShell("adb shell ime set com.baidu.input_miv6/.ImeService")
+        self.dd.find_element_by_id('searchView').click()
+        self.dd.pressKeyCode(AndroidKeyCode.ENTER)
+    #    self.dd.keyevent(66)
+
     def logout(self):
         self.dd.find_element_by_name(u'我的').click()
         self.dd.swipe(0.5,0.75,0.5,0.25)
@@ -110,4 +121,5 @@ if __name__ == "__main__":
     p = "lihailong123"
     test = apptest()
     #test.login(n,p)
-    test.menu()
+    #test.menu()
+    test.search()
