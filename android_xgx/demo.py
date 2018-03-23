@@ -105,6 +105,16 @@ class apptest():
     #   self.dd.keyevent(AndroidKeyCode.ENTER)
         self.dd.keyevent(66)
 
+    def grade(self):
+        g = [u"全部","幼儿蒙学","小学初段","小学中段","小学高段","初中国学","高中国学","成人国学"]
+        for i in g:
+            print i
+            try:
+                self.dd.find_element_by_name(u'首页').click()
+            except:# NoSuchElementException:
+                self.dd.find_element_by_id('subject_back').click()           
+            self.dd.find_element_by_name(i).click()
+
     def logout(self):
         self.dd.find_element_by_name(u'我的').click()
         self.dd.swipe(0.5,0.75,0.5,0.25)
@@ -124,5 +134,6 @@ if __name__ == "__main__":
     test = apptest()
     #test.login(n,p)
     #test.menu()
-    test.search() # olny windows run
+    #test.search() # olny windows run
+    test.grade()
     print time.time()
