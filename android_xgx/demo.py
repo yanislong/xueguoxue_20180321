@@ -4,6 +4,7 @@
 import time
 import sys
 from appium import webdriver
+import subprocess
 
 #获得机器屏幕大小x,y
 '''
@@ -98,10 +99,11 @@ class apptest():
         self.dd.find_element_by_name(u'首页').click()
         self.dd.find_element_by_id('index_search_layout').click()
         self.dd.find_element_by_id('searchView').send_keys('i love you')
-        self.dd.excuteAdbShell("adb shell ime set com.baidu.input_miv6/.ImeService")
+        sll = "adb shell ime set com.google.android.inputmethod.pinyin/.PinyinIME" 
+        pi = subprocess.Popen(sll,shell=True,stdout=subprocess.PIPE)
         self.dd.find_element_by_id('searchView').click()
-        self.dd.pressKeyCode(AndroidKeyCode.ENTER)
-    #    self.dd.keyevent(66)
+    #   self.dd.keyevent(AndroidKeyCode.ENTER)
+        self.dd.keyevent(66)
 
     def logout(self):
         self.dd.find_element_by_name(u'我的').click()
@@ -122,5 +124,5 @@ if __name__ == "__main__":
     test = apptest()
     #test.login(n,p)
     #test.menu()
-    test.search()
+    test.search() # olny windows run
     print time.time
