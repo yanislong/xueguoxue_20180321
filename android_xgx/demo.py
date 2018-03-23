@@ -125,4 +125,4 @@ if __name__ == "__main__":
     #test.login(n,p)
     #test.menu()
     test.search() # olny windows run
-    print time.time
+    print time.time()
