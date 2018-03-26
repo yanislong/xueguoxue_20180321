@@ -5,6 +5,7 @@ import time
 import sys
 from appium import webdriver
 import subprocess
+import threading
 
 #获得机器屏幕大小x,y
 '''
@@ -95,15 +96,37 @@ class apptest():
         self.dd.find_element_by_name(u'消息').click()
         self.dd.find_element_by_name(u'我的').click()
 
+    def double_click(self):
+        self.dd.find_element_by_name('10').click()
+        
+
     def search(self,text=""):
         self.dd.find_element_by_name(u'首页').click()
         self.dd.find_element_by_id('index_search_layout').click()
-        self.dd.find_element_by_id('searchView').send_keys('i love you')
+        tl = []
+        for j in range(5):
+            t = threading.Thread(target=self.double_click,args=())
+            tl.append(t)
+        for l in tl:
+            l.start()
+        sys.exit()
+        self.dd.find_element_by_id('searchView').send_keys(text)
         sll = "adb shell ime set com.google.android.inputmethod.pinyin/.PinyinIME" 
         pi = subprocess.Popen(sll,shell=True,stdout=subprocess.PIPE)
+        print pi.stdout.read()
+        pi = subprocess.Popen("adb shell top -m 10 -n 1",shell=True,stdout=subprocess.PIPE)
+        print pi.stdout.read()
+        p2 = subprocess.Popen("adb shell ps|grep com.wwkj",shell=True,stdout=subprocess.PIPE)
+        print p2.stdout.read()
+        p2 = subprocess.Popen("adb shell su 0;procrank",shell=True,stdout=subprocess.PIPE)
+        print p2.stdout.read()
         self.dd.find_element_by_id('searchView').click()
     #   self.dd.keyevent(AndroidKeyCode.ENTER)
         self.dd.keyevent(66)
+        try:
+            self.dd.find_element_by_name(u'首页').click()
+        except:
+            self.dd.find_element_by_id('search_back').click()
 
     def grade(self):
         g = [u"全部","幼儿蒙学","小学初段","小学中段","小学高段","初中国学","高中国学","成人国学"]
@@ -134,6 +157,7 @@ if __name__ == "__main__":
     test = apptest()
     #test.login(n,p)
     #test.menu()
-    #test.search() # olny windows run
-    test.grade()
+    for i in range(1):
+        test.search(i) # olny windows run
+    #test.grade()
     print time.time()
